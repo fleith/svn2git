@@ -1,12 +1,20 @@
-#!/usr/bin/python3
+#!/usr/local/bin/python3
 
+import sys
+import glob
 import subprocess
 
-#TODO: search path recursively
-with open("svnexternals.txt", "r") as f:
-    for line in f:
-        try:
-            subprocess.check_call('svn co {0}'.format(line), shell=True)
-        except CalledProcessError:
-            subprocess.check_call('svn sw {0}'.format(line), shell=True)
+path_to_search = sys.argv[1] if len(sys.argv) > 1 else "."
+
+def svn_co_or_sw(filename):
+    with open(filename, "r") as f:
+        for line in f:
+            try:
+                subprocess.check_call('svn co {0}'.format(line), shell=True)
+            except subprocess.CalledProcessError:
+                subprocess.check_call('svn sw {0}'.format(line), shell=True)
+
+for filename in glob.iglob('{0}/**/svnexternals.txt'.format(path_to_search), recursive=True):
+    svn_co_or_sw(filename)
+
 
