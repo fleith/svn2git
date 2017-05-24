@@ -20,6 +20,7 @@ print('current user.name: ', current_user_name)
 print('current user.email: ', current_user_email)
 print("current committer date: ", current_committer_date)
 
+# TODO: load tags from args or file
 tags = ['svn/tags/tag-a', 'svn/tags/tag-b']
 
 for tag in tags:
